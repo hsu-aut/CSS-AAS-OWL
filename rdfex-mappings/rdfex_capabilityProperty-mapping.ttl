@@ -1,0 +1,148 @@
+@prefix rdfex: <http://www.w3id.org/hsu-aut/rdfex#>.
+
+<#CapabilityMapping> a rdfex:DataMap;
+	rdfex:ontologicalSource [
+		rdfex:source "./input.ttl";
+		rdfex:sourceType rdfex:File;
+		rdfex:queryLanguage rdfex:Sparql;
+		rdfex:query '''
+		PREFIX CSS: <http://www.w3id.org/hsu-aut/css#>
+		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+		SELECT ?capability (STRAFTER(STR(?capProperty), '#') AS ?capPropertyName) ?propertyComment
+		WHERE {
+			?capability a CSS:Capability;
+				CSS:isSpecifiedBy ?capProperty.
+			OPTIONAL {
+				?capProperty rdfs:comment ?propertyComment.
+			}
+		}'''
+	];
+ 
+	rdfex:targetFormat rdfex:JSON;
+	rdfex:container "$..[?(@.semanticId?.keys[0].value=='https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#CapabilitySet')].value[?(@.idShort=='${?capability}_CapabilityContainer')].[?(@.semanticId?.keys[0].value=='https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#PropertySet')].value"
+	rdfex:snippet '''
+		{
+		  "ordered": false,
+		  "allowDuplicates": false,
+		  "semanticId": {
+			"keys": [
+			  {
+				"type": "GlobalReference",
+				"local": false,
+				"value": "https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#PropertyContainer",
+				"index": 0,
+				"idType": "IRI"
+			  }
+			]
+		  },
+		  "constraints": [
+			{
+			  "type": "Multiplicity",
+			  "valueType": "",
+			  "value": "OneToMany",
+			  "modelType": {
+				"name": "Qualifier"
+			  }
+			}
+		  ],
+		  "hasDataSpecification": [],
+		  "idShort": "${?capability}_${?capPropertyName}_PropertyContainer",
+		  "modelType": {
+			"name": "SubmodelElementCollection"
+		  },
+		  "value": [
+			{
+			  "value": "",
+			  "semanticId": {
+				"keys": [
+				  {
+					"type": "GlobalReference",
+					"local": false,
+					"value": "https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#Property",
+					"index": 0,
+					"idType": "IRI"
+				  }
+				]
+			  },
+			  "constraints": [
+				{
+				  "type": "Multiplicity",
+				  "valueType": "",
+				  "value": "One",
+				  "modelType": {
+					"name": "Qualifier"
+				  }
+				}
+			  ],
+			  "hasDataSpecification": [],
+			  "idShort": "${?capability}_${?capPropertyName}",
+			  "modelType": {
+				"name": "Property"
+			  },
+			  "valueType": {
+				"dataObjectType": {
+				  "name": ""
+				}
+			  },
+			  "kind": "Template",
+			  "descriptions": [
+				{
+				  "language": "en",
+				  "text": "The specific implementation independent property, describing the capability. [All SME]"
+				}
+			  ]
+			},
+			{
+			  "value": {
+				"langString": [
+					{
+						"language": "en",
+						"text": "${?propertyComment}"
+					}
+				]
+			  },
+			  "semanticId": {
+				"keys": [
+				  {
+					"type": "GlobalReference",
+					"local": false,
+					"value": "https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#Comment_2",
+					"index": 0,
+					"idType": "IRI"
+				  }
+				]
+			  },
+			  "constraints": [
+				{
+				  "type": "Multiplicity",
+				  "valueType": "",
+				  "value": "ZeroToOne",
+				  "modelType": {
+					"name": "Qualifier"
+				  }
+				}
+			  ],
+			  "hasDataSpecification": [],
+			  "idShort": "${?capability}_${?capPropertyName}_Comment",
+			  "modelType": {
+				"name": "MultiLanguageProperty"
+			  },
+			  "kind": "Template",
+			  "descriptions": [
+				{
+				  "language": "en",
+				  "text": "Human readable description of the property."
+				}
+			  ]
+			}
+		  ],
+		  "kind": "Template",
+		  "descriptions": [
+			{
+			  "language": "en",
+			  "text": "Container for one property."
+			}
+		  ]
+		},
+		'''
+	.

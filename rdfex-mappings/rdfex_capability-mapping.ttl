@@ -1,0 +1,131 @@
+@prefix rdfex: <http://www.w3id.org/hsu-aut/rdfex#>.
+
+<#CapabilityMapping> a rdfex:DataMap;
+	rdfex:ontologicalSource [
+		rdfex:source "./input.ttl";
+		rdfex:sourceType rdfex:File;
+		rdfex:queryLanguage rdfex:Sparql;
+		rdfex:query '''
+		PREFIX CSS: <http://www.w3id.org/hsu-aut/css#>
+		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+		SELECT ?cap ?capComment (STRAFTER(STR(?cap), '#') AS ?capName) WHERE { 
+			?cap a CSS:Capability.
+			OPTIONAL {
+				?cap rdfs:comment ?capComment.
+			}
+		}'''
+	];
+ 
+	rdfex:targetFormat rdfex:JSON;
+	rdfex:container "$..[?(@.semanticId.keys[0].value=='https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#CapabilitySet')].value";
+	rdfex:snippet '''
+		{
+		  "ordered": false,
+		  "allowDuplicates": false,
+		  "semanticId": {
+			"keys": [
+			  {
+				"type": "GlobalReference",
+				"local": false,
+				"value": "https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#CapabilityContainer",
+				"index": 0,
+				"idType": "IRI"
+			  }
+			]
+		  },
+		  "constraints": [
+			{
+			  "type": "Multiplicity",
+			  "valueType": "",
+			  "value": "OneToMany",
+			  "modelType": {
+				"name": "Qualifier"
+			  }
+			}
+		  ],
+		  "hasDataSpecification": [],
+		  "idShort": "${?capName}_CapabilityContainer",
+		  "modelType": {
+			"name": "SubmodelElementCollection"
+		  },
+		  "value": [
+			{
+			  "semanticId": {
+				"keys": [
+				  {
+					"type": "GlobalReference",
+					"local": false,
+					"value": "https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#Capability",
+					"index": 0,
+					"idType": "IRI"
+				  }
+				]
+			  },
+			  "constraints": [
+				{
+				  "type": "Multiplicity",
+				  "valueType": "",
+				  "value": "One",
+				  "modelType": {
+					"name": "Qualifier"
+				  }
+				}
+			  ],
+			  "hasDataSpecification": [],
+			  "idShort": "${?capName}",
+			  "modelType": {
+				"name": "Capability"
+			  },
+			  "kind": "Instance",
+			  "descriptions": [
+				{
+				  "language": "en",
+				  "text": "Reference to an implementation-independent description, defined in a knowledge base, of the function to achieve a certain effect in the physical or virtual world."
+				}
+			  ]
+			},
+			{
+			  "value": {
+				"langString": [
+				  {
+					"language": "en",
+					"text": "${?capComment}"
+				  }
+				]
+			  },
+			  "semanticId": {
+				"keys": [
+				  {
+					"type": "GlobalReference",
+					"local": false,
+					"value": "https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#Comment",
+					"index": 0,
+					"idType": "IRI"
+				  }
+				]
+			  },
+			  "constraints": [
+				{
+				  "type": "Multiplicity",
+				  "valueType": "",
+				  "value": "ZeroToOne",
+				  "modelType": {
+					"name": "Qualifier"
+				  }
+				}
+			  ],
+			  "hasDataSpecification": [],
+			  "idShort": "${?capName}_Comment",
+			  "modelType": {
+				"name": "MultiLanguageProperty"
+			  },
+			  "kind": "Instance",
+			  "descriptions": [
+				{
+				  "language": "en",
+				  "text": "Human readable description of the capability."
+				}
+			  ]
+			}
+		'''
+	.
