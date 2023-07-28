@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Vieira da Silva"
+  given-names: "Miguel"
+- family-names: "Köcher"
+  given-names: "Aljosha"
+  orcid: "0000-0002-7228-8387"
+- family-names: "Gill"
+  given-names: "Milapji Singh"
+title: "CSS-AAS-OWL: Bidirectional Mapping for Capabilities and Skills"
+date-released: 2023-07-09
+url: "https://github.com/hsu-aut/CSS-AAS-OWL"
+preferred-citation:
+  type: conference-paper
+  authors:
+  - family-names: "Vieira da Silva"
+  given-names: "Miguel"
+  - family-names: "Köcher"
+  given-names: "Aljosha"
+  orcid: "0000-0002-7228-8387"
+  - family-names: "Gill"
+  given-names: "Milapji Singh"
+  - family-names: "Weiss"
+  given-names: "Marco"
+  - family-names: "Fay"
+  given-names: "Alexander"
+  title: "Toward a Mapping of Capability and Skill Models using Asset Administration Shells and Ontologies"
+  year: 2023
+  collection-title: "Proceedings of the 2023 IEEE 28th International Conference on Emerging Technologies and Factory Automation (ETFA)"
+  conference:
+    name: 2023 IEEE 28th International Conference on Emerging Technologies and Factory Automation (ETFA)
+    location: Sinaia
+    city: Sinaia
+    country: RO
+    date-start: 2023-09-12
+    date-end: 2023-09-15
+  start: 0
+  end: 0
