@@ -1,0 +1,56 @@
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix CSS: <http://www.w3id.org/hsu-aut/css#> .
+@prefix CaSk: <http://www.w3id.org/hsu-aut/cask#> .
+@prefix CaSkMan: <http://www.w3id.org/hsu-aut/caskman#> .
+@prefix : <http://www.hsu-hh.de/aut/CSS-AAS-OWL#>.
+
+
+# Mapping to create all AAS capability properties and add them to the corresponding capability individuals.
+# Note: We start with the capability again to then attach each property to its capability. This mapping could be combined with the capability mapping.
+:CapabilityDefinition a rr:TriplesMap;
+    rml:logicalSource[
+        rml:source "input.json";
+        rml:referenceFormulation ql:JsonPath;
+        rml:iterator "$..[?(@.semanticId?.keys[0].value=='https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#CapabilityContainer')]"
+    ];
+
+    rr:subjectMap [
+        rr:template "#{@.value[?(@.semanticId?.keys[0].value=='https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#Capability')].idShort}";
+        rr:class CSS:Capability;
+    ];
+	
+	# Takes all properties independent of their property containers
+	rr:predicateObjectMap[
+        rr:predicate CSS:isSpecifiedBy;
+        rr:objectMap[
+            rr:template "#{@.value..[?(@.semanticId?.keys[0].value=='https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#Property')].idShort}";
+            rr:datatype CSS:Property.
+        ]
+    ].
+	
+	
+# Mapping to add property comments as labels to properties. Starts with property containers to have access to the pair of each property with its comment
+:CapabilityDefinition a rr:TriplesMap;
+	rml:logicalSource[
+		rml:source "input.json";
+        rml:referenceFormulation ql:JsonPath;
+        rml:iterator "$..[?(@.semanticId?.keys[0].value=='https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#PropertyContainer')]"
+    ];
+
+    rr:subjectMap [
+        rr:template "#{@.value[?(@.semanticId?.keys[0].value=='https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#Property')].idShort}";
+        rr:class CSS:Capability;
+    ];
+	
+	# Takes all properties independent of their property containers
+	rr:predicateObjectMap[
+        rr:predicate rdfs:label;
+        rr:objectMap[
+            rr:template "{@.value[?(@.semanticId?.keys[0].value=='https://wiki.eclipse.org/BaSyx_/_Documentation_/_Submodels_/_Capability#Comment_2')].value.langString[?(@.language=='en')].text}";
+            rr:datatype xsd:string.
+        ]
+    ].
